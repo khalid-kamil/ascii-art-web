@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app.css">
+    <title>Web Practice</title>
+</head>
+
+<body>
+    <main>
+        <div class="title-class">
+            <h1 id="title-id">Web Practice</h1>
+        </div>
+        <form action="/" method="POST">
+            <div class="input-class">
+                <div>
+                    <label for="">Input:</label>
+                </div>
+                <textarea name="input-name" id="input-id" cols="30" rows="10" placeholder="Input here..."></textarea>
+            </div>
+            <div class="banner-class">
+                <div>Select banner:</div>
+                <div>
+                    <div>
+                        <input type="radio" name="banner" id="standard-id" value="standard" checked>
+                        <label for="standard-id">Standard</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="banner" id="shadow-id" value="shadow">
+                        <label for="shadow-id">Shadow</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="banner" id="thinkertoy-id" value="thinkertoy">
+                        <label for="thinkertoy-id">Thinkertoy</label>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-class">
+                <button type="submit" value="submit" id="convert-btn-id">convert</button>
+            </div>
+        </form>
+        <pre>{{.}}</pre>
+    </main>
+</body>
+
+</html>

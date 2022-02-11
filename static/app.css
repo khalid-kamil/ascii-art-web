@@ -1,0 +1,22 @@
+body {
+    margin: 50px;
+    padding: 50px;
+    background-color: antiquewhite;
+}
+.title-class{
+    text-align: center;
+    text-transform: uppercase;
+    size-adjust: 20px;
+    letter-spacing: 10px;
+}
+.banner-class{
+    height: 100px;
+    padding-left: 150px;
+    border: 1px solid #c3c3c3;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
+}
+div{
+    text-align: center;
+}
