@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"html/template"
 	"log"
@@ -9,40 +10,44 @@ import (
 	"webpractice/banner"
 )
 
-var T = template.Must(template.ParseGlob("static/*.html"))
+var T = template.Must(template.ParseGlob("static/*.html")) // calling the html file
 
-func AsciiArtOutput(input, ban string) string {
-	return banner.PrintAsciiArt(input, "banner/"+ban+".txt")
+func AsciiArt(input, ban string) (string, error) { // this function accept two argument, the "input" and  the type of the "banner"
+	if input == "" || (ban == "" || !(ban == "standard" || ban == "shadow" || ban == "thinkertoy")) {
+		return "", errors.New("invalid input") // return if theirs an error
+	}
+	return banner.PrintAsciiArt(input, "banner/"+ban+".txt"), nil // return if theirs no error
 }
+
 func process(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.Error(w, "Not found.", http.StatusNotFound)
 		return
 	}
+	// http.Handle("/", http.FileServer(http.Dir("css/")))
 	switch r.Method {
 	case "GET":
 		input := ""
 		banner := "standard"
-		output := AsciiArtOutput(input, banner)
-		if err := T.Execute(w, output); err != nil {
+		output, _ := AsciiArt(input, banner)
+		if err := T.Execute(w, output); err != nil { // Execute the AsciiArt to prevent printing {{.}}
 			http.Error(w, "Internal Error", http.StatusInternalServerError)
 			return
 		}
 	case "POST":
-		input := r.FormValue("input-name")
-		banner := r.FormValue("banner")
-		if len(input) == 0 && len(banner) == 0 {
-			input = ""
-			banner = "shadow"
-		}
+		input := r.FormValue("input-name") // getting the input in <textarea>
+		banner := r.FormValue("banner")    // getting the banner value in the radio button
 		output := ""
-		if strings.Contains(input, "\r\n") {
-			output = strings.Replace(input, "\r\n", "\\n", -1)
+		if strings.Contains(input, "\r\n") { // cathing the "return or enter" value
+			output = strings.Replace(input, "\r\n", "\\n", -1) // and replace it with newline
 		} else {
 			output = input
 		}
-		output = AsciiArtOutput(output, banner)
-
+		output, err := AsciiArt(output, banner) //call the AsciiArt() to convert the input into Ascii Art
+		if err != nil {
+			http.Error(w, "Internal Error", http.StatusInternalServerError)
+			return
+		}
 		if err := T.Execute(w, output); err != nil {
 			http.Error(w, "Internal Error", http.StatusInternalServerError)
 			return
@@ -52,6 +57,8 @@ func process(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func main() {
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", process)
 	fmt.Printf("Starting server at port 2000\n")
 	log.Fatal(http.ListenAndServe(":2000", nil))
