@@ -20,8 +20,8 @@ func AsciiArt(input, ban string) (string, error) { // this function accept two a
 }
 
 func process(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.Error(w, "Not found.", http.StatusNotFound)
+	if r.URL.Path != "/" && r.URL.Path != "/ascii-art" {
+		http.Error(w, "404 Status not found", http.StatusNotFound)
 		return
 	}
 	// http.Handle("/", http.FileServer(http.Dir("css/")))
@@ -60,6 +60,7 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", process)
-	fmt.Printf("Starting server at port 2000\n")
-	log.Fatal(http.ListenAndServe(":2000", nil))
+	http.HandleFunc("/ascii-art", process)
+	fmt.Printf("Starting server at port 5500\n")
+	log.Fatal(http.ListenAndServe(":5500", nil))
 }

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/app.css">
-    <title>Web Practice</title>
+    <title>Ascii Art</title>
 </head>
 
 <body>
@@ -14,20 +14,28 @@
         <div class="title-class">
             <h1 id="title-id">Ascii Web</h1>
         </div>
-        <form action="/" method="POST">
+        <p> How to Use and Run the Program: <br>
+            1- Within the terminal input the following: go run . <br>
+            2- Oppen an Internet Brouser to see the webpage type: localhost:5050 <br>
+            3- Then enter the text you would like to convert into ascii art.
+            4- Then select the font or banner style that suts your abjective.
+            5- Click the Generate Art button which will take you to a new page where the ascii art is displayed.
+        </p>
+        <form action="/ascii-art" method="POST">
             <div class="input-class">
                 <div>
-                    <label for="input-id">Input Text:</label> 
+                    <label for="input-id">Input Text:</label>
                 </div>
-                
-                <div> 
-                    <textarea name="input-name" id="input-id" cols="30" rows="10" placeholder="Input here..." required></textarea>
+
+                <div>
+                    <textarea name="input-name" id="input-id" cols="30" rows="10" placeholder="Input here..."
+                        required></textarea>
                 </div>
             </div>
-
+            <!-- this section is for the Style banner Container -->
             <div class="banner-class">
-                <div>Select Preferred Stile:</div>
-                <select name="banner">
+                <h3>Select Preferred Stile:</h3>
+                <select name="banner" required>
                     <option value="shadow">Shadow </option>
                     <option value="standard">Standard</option>
                     <option value="thinkertoy">Thinkertoy</option>
@@ -38,8 +46,10 @@
                 <button type="submit" value="submit" id="convert-btn-id">convert</button>
             </div>
         </form>
-        <pre>{{.}}</pre>
     </main>
+    <div class="output-class">
+        <pre>{{.}}</pre>
+    </div>
 </body>
 
 </html>

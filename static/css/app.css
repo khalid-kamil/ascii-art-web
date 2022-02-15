@@ -1,11 +1,14 @@
+/* this section is for the entire HTML page mesurments */
 html {
     height: 100%;
-    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    background-image: linear-gradient(0deg, #84fab0 0%, #8fd3f4 100%);
 }
 
-body {
+
+/* this section controls the main section of the HTML page */
+main {
     font-family: 'Courier New', monospace;
-    margin: 50px;
+    margin: 2%;
     padding: 50px;
     background: rgba( 255, 255, 255, 0.5 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
@@ -13,23 +16,44 @@ body {
     -webkit-backdrop-filter: blur( 10px );
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
-}
-
-.title-class{
     text-align: center;
+}
+/* this section controls the class="output-class" section of the HTML page */
+.output-class{
+    margin: 2%;
+    min-width: 96%;
+    width: max-content;
+    overflow: wrap;
+}
+/* This section controls the ASCII WEB Title */
+.title-class{
     text-transform: uppercase;
-    size-adjust: 20px;
     letter-spacing: 10px;
 }
-.banner-class{
-    height: 100px;
-    padding-left: 150px;
-    border: 1px solid #c3c3c3;
+
+/* ------------------------------------------------------------- */
+
+
+/*----Style Banner Container---*/
+.banner-class {
+    height: 80px;
+    padding-left: 270px;
+    border: 3px solid #c3c3c3;
     display: flex;
-    flex-wrap: wrap;
+}
+/*----Style Banner Selection Box---*/
+.banner-class select{
+    height: 50px;
+    border: 10px solid #cc0808;
+}
+/*----Style Banner header Text---*/
+.banner-class h3{
+    padding-left: 89px;
+    color: #b4a309;
     text-align: left;
 }
 
+/* -----------------------------------Button--------------------------- */
 #convert-btn-id {
   appearance: none;
   background-color: #FAFBFC;
@@ -55,23 +79,23 @@ body {
   white-space: nowrap;
   word-wrap: break-word;
 }
-
+/* change Converst Buton on mouse hover */
 #convert-btn-id:hover {
-  background-color: #F3F4F6;
+  background-color: #3060c0;
   text-decoration: none;
   transition-duration: 0.1s;
 }
-
+/* change Converst Buton on Click */
 #convert-btn-id:active {
-  background-color: #EDEFF2;
+  background-color: #b0d617;
   box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
   transition: none 0s;
 }
-
-div{
-    text-align: center;
-}
-
-.banner-class div {
+/* This section controls thge text output fild */
+pre {
     text-align: left;
+    font-weight: bolder;
+    color: #cc0808;
+    /* background-color: #b0d617; */
 }
+
