@@ -16,7 +16,7 @@ func AsciiArt(input, ban string) (string, error) { // this function accept two a
 	if input == "" || (ban == "" || !(ban == "standard" || ban == "shadow" || ban == "thinkertoy")) {
 		return "", errors.New("invalid input") // return if theirs an error
 	}
-	return banner.PrintAsciiArt(input, "banner/"+ban+".txt"), nil // return if theirs no error
+	return banner.PrintAsciiArt(input, "banner/"+ban+".txt"), nil // return if theirs no error in the banner and input
 }
 
 func process(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,6 @@ func process(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "404 Status not found", http.StatusNotFound)
 		return
 	}
-	// http.Handle("/", http.FileServer(http.Dir("css/")))
 	switch r.Method {
 	case "GET":
 		input := ""
@@ -49,16 +48,16 @@ func process(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if err := T.Execute(w, output); err != nil {
-			http.Error(w, "Internal Error", http.StatusInternalServerError)
+			http.Error(w, "Internal Error", http.StatusInternalServerError) // error if their is a prolblem in the server
 			return
 		}
 	default:
-		http.Error(w, "Bad request", http.StatusBadRequest)
+		http.Error(w, "Bad request", http.StatusBadRequest) // if the request method is not GET or POST
 	}
 }
 func main() {
 	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.Handle("/static/", http.StripPrefix("/static/", fs)) // handling the CSS
 	http.HandleFunc("/", process)
 	http.HandleFunc("/ascii-art", process)
 	fmt.Printf("Starting server at port 5500\n")
