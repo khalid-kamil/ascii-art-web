@@ -12,7 +12,7 @@ import (
 
 var T = template.Must(template.ParseGlob("static/*.html")) // calling the html file
 
-type Output struct {
+type Output struct { // struct to output the input, banner, and the art
 	Input  string
 	Banner string
 	Art    string
@@ -26,7 +26,7 @@ func AsciiArt(input, ban string) (string, error) { // this function accept two a
 }
 
 func process(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" && r.URL.Path != "/ascii-art" {
+	if r.URL.Path != "/" && r.URL.Path != "/ascii-art" { // only accept the / and /ascii-art
 		http.Error(w, "404 Status not found", http.StatusNotFound)
 		return
 	}
@@ -37,7 +37,7 @@ func process(w http.ResponseWriter, r *http.Request) {
 		var out Output
 		out.Input = input
 		out.Banner = banner
-		output, _ := AsciiArt(input, banner)
+		output, _ := AsciiArt(input, banner) // converts the input to an asciiart
 		out.Art = output
 		if err := T.Execute(w, out); err != nil { // Execute the AsciiArt to prevent printing {{.}}
 			http.Error(w, "Internal Error", http.StatusInternalServerError)
@@ -61,7 +61,7 @@ func process(w http.ResponseWriter, r *http.Request) {
 		out.Input = input
 		out.Banner = banner
 		out.Art = output
-		if err := T.Execute(w, out); err != nil {
+		if err := T.Execute(w, out); err != nil { // execute the struct to the html
 			http.Error(w, "Internal Error", http.StatusInternalServerError) // error if their is a prolblem in the server
 			return
 		}
@@ -72,8 +72,8 @@ func process(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs)) // handling the CSS
-	http.HandleFunc("/", process)
-	http.HandleFunc("/ascii-art", process)
+	http.HandleFunc("/", process)                             // handle the GET request
+	http.HandleFunc("/ascii-art", process)                    // handle the POST request
 	fmt.Printf("Starting server at port 5500\n")
-	log.Fatal(http.ListenAndServe(":5500", nil))
+	log.Fatal(http.ListenAndServe(":5500", nil)) // run the server
 }
