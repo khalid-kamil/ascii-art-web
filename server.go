@@ -19,13 +19,13 @@ type Output struct { // struct to output the input, banner, and the art
 }
 
 func AsciiArt(input, ban string) (string, error) { // this function accept two argument, the "input" and  the type of the "banner"
-	if input == "" || (ban == "" || !(ban == "standard" || ban == "shadow" || ban == "thinkertoy")) {
-		return "", errors.New("invalid input") // return if theirs an error
+	if !(ban == "standard" || ban == "shadow" || ban == "thinkertoy") {
+		return "", errors.New("invalid") // return if theirs an error
 	}
 	return banner.PrintAsciiArt(input, "banner/"+ban+".txt"), nil // return if theirs no error in the banner and input
 }
 
-func process(w http.ResponseWriter, r *http.Request) {
+func Process(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" && r.URL.Path != "/ascii-art" { // only accept the / and /ascii-art
 		http.Error(w, "404 Status not found", http.StatusNotFound)
 		return
@@ -46,6 +46,10 @@ func process(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		input := r.FormValue("input-name") // getting the input in <textarea>
 		banner := r.FormValue("banner")    // getting the banner value in the radio button
+		if input == "" || banner == "" {
+			http.Error(w, "Bad request", http.StatusBadRequest)
+			return
+		}
 		output := ""
 		if strings.Contains(input, "\r\n") { // cathing the "return or enter" value
 			output = strings.Replace(input, "\r\n", "\\n", -1) // and replace it with newline
@@ -72,8 +76,8 @@ func process(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs)) // handling the CSS
-	http.HandleFunc("/", process)                             // handle the GET request
-	http.HandleFunc("/ascii-art", process)                    // handle the POST request
+	http.HandleFunc("/", Process)                             // handle the GET request
+	http.HandleFunc("/ascii-art", Process)                    // handle the POST request
 	fmt.Printf("Starting server at port 5500\n")
 	log.Fatal(http.ListenAndServe(":5500", nil)) // run the server
 }
