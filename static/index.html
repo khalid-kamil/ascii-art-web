@@ -19,9 +19,10 @@
             <div class="card">
                 <h3>Instructions:</h3>
                 <ol>
-                    <li>Execute "go run ." in the terminal</li>
-                    <li>Visit "localhost:5050" on your browser</li>
+                    <!-- <li>Execute "go run ." in the terminal</li>
+                    <li>Visit "localhost:5050" on your browser</li> -->
                     <li>Type the text you would like to convert</li>
+                    <li>To clear the text input fild use the backspace key or just click the clear button</li>
                     <li>Select the font of your choice</li>
                     <li>Click the "Generate Art" button</li>
                 </ol>
@@ -31,21 +32,26 @@
                     <div class="banner-class">
                         <label for="banner">Font:</label>
                         <select name="banner" required>
-                            <option value="shadow">Shadow </option>
-                            <option value="standard">Standard</option>
-                            <option value="thinkertoy">Thinkertoy</option>
+                            <option value="" disabled selected hidden>--Select--</option>
+                            <!-- this section prints out in the print ariea the selected font opption -->
+                            <option value="shadow" {{- if eq .Banner "shadow" -}}selected{{- end -}}>Shadow </option>
+                            <option value="standard" {{- if eq .Banner "standard" -}}selected{{- end -}}>Standard
+                            </option>
+                            <option value="thinkertoy" {{- if eq .Banner "thinkertoy" -}}selected{{- end -}}>Thinkertoy
+                            </option>
                         </select>
                     </div> <!-- banner-class closing tag  -->
                     <br>
                     <div>
                         <label for="input-id">Input Text:</label>
                         <br>
-                        <textarea name="input-name" id="input-id" rows="10" placeholder="Type your text here..." required></textarea>
+                        <textarea name="input-name" id="input-id" rows="10" placeholder="Type your text here..."
+                            required>{{.Input}}</textarea>
                     </div>
                     <div class="controls">
                         <div class="row">
-                            <button class="clear-btn" id="clear-btn-id">Clear</button>
-                            <button type="submit" value="submit" id="convert-btn-id">Generate Art</button>
+                            <button class="clear-btn" id="clear-btn-id" onclick="deleteInputContent()">Clear</button>
+                            <button type="submit" id="convert-btn-id">Generate Art</button>
                         </div>
                     </div>
                 </form>
@@ -55,8 +61,8 @@
         <div class="rightcolumn">
             <div class="card">
                 <div class="output-class">
-                    <!-- <textarea id="output" wrap="off">{{.}}</textarea> -->
-                    <pre>{{.}}</pre>
+                    <div>Selected Font: {{ .Banner }}</div>
+                    <pre>{{.Art}}</pre>
                 </div>
             </div> <!-- card closing tag  -->
         </div> <!-- rightcolumn closing tag  -->
@@ -64,6 +70,13 @@
     <div class="footer">
         <p>Created by: Ricky, Geoffrey and Khalid</p>
     </div>
+
+    <script>
+        function deleteInputContent() {
+            var inputToBeDeleted = document.getElementById("input-id");
+            inputToBeDeleted.value = "";
+        }
+    </script>
 </body>
 
 </html>

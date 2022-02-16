@@ -12,6 +12,12 @@ import (
 
 var T = template.Must(template.ParseGlob("static/*.html")) // calling the html file
 
+type Output struct {
+	Input  string
+	Banner string
+	Art    string
+}
+
 func AsciiArt(input, ban string) (string, error) { // this function accept two argument, the "input" and  the type of the "banner"
 	if input == "" || (ban == "" || !(ban == "standard" || ban == "shadow" || ban == "thinkertoy")) {
 		return "", errors.New("invalid input") // return if theirs an error
@@ -27,9 +33,13 @@ func process(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		input := ""
-		banner := "standard"
+		banner := ""
+		var out Output
+		out.Input = input
+		out.Banner = banner
 		output, _ := AsciiArt(input, banner)
-		if err := T.Execute(w, output); err != nil { // Execute the AsciiArt to prevent printing {{.}}
+		out.Art = output
+		if err := T.Execute(w, out); err != nil { // Execute the AsciiArt to prevent printing {{.}}
 			http.Error(w, "Internal Error", http.StatusInternalServerError)
 			return
 		}
@@ -42,12 +52,16 @@ func process(w http.ResponseWriter, r *http.Request) {
 		} else {
 			output = input
 		}
+		var out Output
 		output, err := AsciiArt(output, banner) //call the AsciiArt() to convert the input into Ascii Art
 		if err != nil {
 			http.Error(w, "Internal Error", http.StatusInternalServerError)
 			return
 		}
-		if err := T.Execute(w, output); err != nil {
+		out.Input = input
+		out.Banner = banner
+		out.Art = output
+		if err := T.Execute(w, out); err != nil {
 			http.Error(w, "Internal Error", http.StatusInternalServerError) // error if their is a prolblem in the server
 			return
 		}
