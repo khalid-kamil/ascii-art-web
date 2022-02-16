@@ -6,49 +6,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/app.css">
-    <title>Ascii Art</title>
+    <title>Ascii Art Web</title>
 </head>
 
 <body>
-    <main>
-        <div class="title-class">
-            <h1 id="title-id">Ascii Web</h1>
-        </div>
-        <p> How to Use and Run the Program: <br>
-            1- Within the terminal input the following: go run . <br>
-            2- Oppen an Internet Brouser to see the webpage type: localhost:5050 <br>
-            3- Then enter the text you would like to convert into ascii art.
-            4- Then select the font or banner style that suts your abjective.
-            5- Click the Generate Art button which will take you to a new page where the ascii art is displayed.
-        </p>
-        <form action="/ascii-art" method="POST">
-            <div class="input-class">
-                <div>
-                    <label for="input-id">Input Text:</label>
-                </div>
+    <div class="header">
+        <h1 id="title-id">Ascii Art Web</h1>
+    </div>
 
-                <div>
-                    <textarea name="input-name" id="input-id" cols="30" rows="10" placeholder="Input here..."
-                        required></textarea>
-                </div>
-            </div>
-            <!-- this section is for the Style banner Container -->
-            <div class="banner-class">
-                <h3>Select Preferred Stile:</h3>
-                <select name="banner" required>
-                    <option value="shadow">Shadow </option>
-                    <option value="standard">Standard</option>
-                    <option value="thinkertoy">Thinkertoy</option>
-                </select>
-            </div>
+    <div class="row">
+        <div class="leftcolumn">
+            <div class="card">
+                <h3>Instructions:</h3>
+                <ol>
+                    <li>Execute "go run ." in the terminal</li>
+                    <li>Visit "localhost:5050" on your browser</li>
+                    <li>Type the text you would like to convert</li>
+                    <li>Select the font of your choice</li>
+                    <li>Click the "Generate Art" button</li>
+                </ol>
 
-            <div class="btn-class">
-                <button type="submit" value="submit" id="convert-btn-id">convert</button>
-            </div>
-        </form>
-    </main>
-    <div class="output-class">
-        <pre>{{.}}</pre>
+                <h3>Create Ascii Art:</h3>
+                <form action="/ascii-art" method="POST">
+                    <div class="banner-class">
+                        <label for="banner">Font:</label>
+                        <select name="banner" required>
+                            <option value="shadow">Shadow </option>
+                            <option value="standard">Standard</option>
+                            <option value="thinkertoy">Thinkertoy</option>
+                        </select>
+                    </div> <!-- banner-class closing tag  -->
+                    <br>
+                    <div>
+                        <label for="input-id">Input Text:</label>
+                        <br>
+                        <textarea name="input-name" id="input-id" rows="10" placeholder="Type your text here..." required></textarea>
+                    </div>
+                    <div class="controls">
+                        <div class="row">
+                            <button class="clear-btn" id="clear-btn-id">Clear</button>
+                            <button type="submit" value="submit" id="convert-btn-id">Generate Art</button>
+                        </div>
+                    </div>
+                </form>
+            </div> <!-- card closing tag  -->
+        </div> <!-- leftcolumn closing tag  -->
+
+        <div class="rightcolumn">
+            <div class="card">
+                <div class="output-class">
+                    <!-- <textarea id="output" wrap="off">{{.}}</textarea> -->
+                    <pre>{{.}}</pre>
+                </div>
+            </div> <!-- card closing tag  -->
+        </div> <!-- rightcolumn closing tag  -->
+    </div> <!-- row closing tag  -->
+    <div class="footer">
+        <p>Created by: Ricky, Geoffrey and Khalid</p>
     </div>
 </body>
 
