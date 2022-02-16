@@ -1,13 +1,13 @@
 package main
 
 import (
+	"asciiartweb/banner"
 	"errors"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"strings"
-	"webpractice/banner"
 )
 
 var T = template.Must(template.ParseGlob("static/*.html")) // calling the html file
