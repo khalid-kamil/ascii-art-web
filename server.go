@@ -1,7 +1,7 @@
 package main
 
 import (
-	"asciiartweb/banner"
+	"asciiweb/banner"
 	"errors"
 	"fmt"
 	"html/template"
